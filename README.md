@@ -1,5 +1,6 @@
-#fork reason
-I fork the project to make wrap the script as windows service for personal useage
+# fork reason
+I fork the project to make wrap the script as windows service for personal useage 
+
 fork这个项目的目的是包装成windows服务， 用于个人使用
 
 # shootback
