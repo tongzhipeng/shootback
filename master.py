@@ -436,7 +436,7 @@ def run_master(communicate_addr, customer_listen_addr, ssl=False):
     Master(customer_listen_addr, communicate_addr, ssl=ssl).serve_forever()
 
 
-def argparse_master():
+def argparse_master(args=None):
     import argparse
     parser = argparse.ArgumentParser(
         description="""shootback (master) {ver}
@@ -481,13 +481,17 @@ Tips: ANY service using TCP is shootback-able.  HTTP/FTP/Proxy/SSH/VNC/...
     parser.add_argument('--ssl', action='store_true', help='[experimental] try using ssl for data encryption. '
                                                            'It may be enabled by default in future version')
 
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 
-def main_master():
+def main_master(raw_args=None, log_file=None):
+    print('main_master...raw_args=', raw_args, ', log_file=', log_file)
     global SPARE_SLAVER_TTL
-
-    args = argparse_master()
+    if log_file:
+        file_handler = logging.FileHandler(log_file)
+        log.addHandler(file_handler)
+    log.info('main_master raw_args=' + str(raw_args))
+    args = argparse_master(raw_args)
 
     if args.verbose and args.quiet:
         print("-v and -q should not appear together")
@@ -509,6 +513,7 @@ def main_master():
         configure_logging(level)
 
     run_master(communicate_addr, customer_listen_addr, ssl=args.ssl)
+
 
 
 if __name__ == '__main__':

@@ -302,7 +302,7 @@ def run_slaver(communicate_addr, target_addr, max_spare_count=5, ssl=False):
            ).serve_forever()
 
 
-def argparse_slaver():
+def argparse_slaver(args = None):
     import argparse
     parser = argparse.ArgumentParser(
         description="""shootback {ver}-slaver
@@ -350,13 +350,13 @@ Tips: ANY service using TCP is shootback-able.  HTTP/FTP/Proxy/SSH/VNC/...
     parser.add_argument('--ssl', action='store_true', help='[experimental] try using ssl for data encryption. '
                                                            'It may be enabled by default in future version')
 
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 
-def main_slaver():
+def main_slaver(raw_args=None):
     global SPARE_SLAVER_TTL
 
-    args = argparse_slaver()
+    args = argparse_slaver(raw_args)
 
     if args.verbose and args.quiet:
         print("-v and -q should not appear together")
