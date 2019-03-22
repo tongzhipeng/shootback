@@ -1,0 +1,3 @@
+@echo restart...
+@MasterService.exe restart
+@echo restart finish!
