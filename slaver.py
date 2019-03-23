@@ -353,9 +353,13 @@ Tips: ANY service using TCP is shootback-able.  HTTP/FTP/Proxy/SSH/VNC/...
     return parser.parse_args(args)
 
 
-def main_slaver(raw_args=None):
+def main_slaver(raw_args=None, log_file=None):
     global SPARE_SLAVER_TTL
-
+    print('main_slaver...raw_args=', raw_args, ', log_file=', log_file)
+    if log_file:
+        file_handler = logging.FileHandler(log_file)
+        log.addHandler(file_handler)
+    log.info('main_slaver raw_args=' + str(raw_args))
     args = argparse_slaver(raw_args)
 
     if args.verbose and args.quiet:

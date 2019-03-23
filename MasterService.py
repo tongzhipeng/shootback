@@ -1,26 +1,26 @@
 #!/usr/bin/env python
-#encoding: utf-8
+# - encoding: utf-8
 
 import win32serviceutil
 import win32service
 import win32event
-import sys, os
+import sys
 import servicemanager
 import time
-#import multiprocessing
 import win32timezone
 import logging
 import traceback
-master_logger = logging.getLogger()
+
 from master import main_master
 import threading
 from configparser import ConfigParser
 from pathlib import Path
 
 cur_exe_dir = Path(sys.argv[0]).parent
+master_logger = logging.getLogger()
 
 
-def initLog():
+def init_log():
     global master_logger
     master_logger.setLevel(logging.DEBUG)
     fileHandler = logging.FileHandler(cur_exe_dir.joinpath('master.log'))
@@ -108,7 +108,7 @@ class MasterService(win32serviceutil.ServiceFramework):
 #     # 括号里参数可以改成其他名字，但是必须与class类名一致；
 
 if __name__ == '__main__':
-    initLog()
+    init_log()
     #multiprocessing.freeze_support()
     master_logger.info('master service start...')
     if len(sys.argv) > 1 and  sys.argv[1] == 'debug':
