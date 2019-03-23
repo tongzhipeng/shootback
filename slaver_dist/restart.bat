@@ -1,0 +1,3 @@
+@echo restart...
+@SlaverService.exe restart
+@echo restart finish!

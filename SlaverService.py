@@ -23,7 +23,7 @@ slaver_logger = logging.getLogger()
 def init_log():
     global slaver_logger
     slaver_logger.setLevel(logging.DEBUG)
-    file_handler = logging.FileHandler(cur_exe_dir.joinpath('master.log'))
+    file_handler = logging.FileHandler(cur_exe_dir.joinpath('slaver.log'))
     slaver_logger.addHandler(file_handler)
 
 
@@ -31,9 +31,9 @@ class SlaverService(win32serviceutil.ServiceFramework):
     # 服务名
     _svc_name_ = "SlaverService"
     # 服务在windows系统中显示的名称
-    _svc_display_name_ = "Python Service Test"
+    _svc_display_name_ = "SlaverService"
     # 服务的描述
-    _svc_description_ = "This code is a Python service Test"
+    _svc_description_ = "This code is a shootback SlaverService"
     config = ConfigParser()
 
     def __init__(self, args):
@@ -57,7 +57,7 @@ class SlaverService(win32serviceutil.ServiceFramework):
     def ReportServiceStatus(self, serviceStatus, waitHint=5000, win32ExitCode=0, svcExitCode=0):
         slaver_logger.info('ReportServiceStatus status=%d', serviceStatus)
         if not self.debug:
-            super(MasterService, self).ReportServiceStatus(serviceStatus, waitHint, win32ExitCode, svcExitCode)
+            super(SlaverService, self).ReportServiceStatus(serviceStatus, waitHint, win32ExitCode, svcExitCode)
 
 
     def SvcDoRun(self):
@@ -70,7 +70,7 @@ class SlaverService(win32serviceutil.ServiceFramework):
             log_file = cur_exe_dir.joinpath('slaver.log')
             slaver_thread = threading.Thread(target=main_slaver, args=(raw_args.split(), log_file))
             slaver_thread.start()
-        
+
             self.ReportServiceStatus(win32service.SERVICE_RUNNING)
             self.log('start')
             while self.working_:
@@ -101,7 +101,7 @@ class SlaverService(win32serviceutil.ServiceFramework):
 
 if __name__ == '__main__':
     init_log()
-    slaver_logger.info('master service start...')
+    slaver_logger.info('salver service start...')
     if len(sys.argv) > 1 and sys.argv[1] == 'debug':
         service = SlaverService('Debug')
         service.SvcDoRun()
